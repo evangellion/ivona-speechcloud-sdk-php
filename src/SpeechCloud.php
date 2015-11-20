@@ -43,9 +43,15 @@ class SpeechCloud implements SpeechCloudInterface
     private $client;
 
     /**
-     * @param array $config
+     * @var ExceptionHandler
      */
-    public function __construct(array $config)
+    private $exceptionHandler;
+
+    /**
+     * @param array $config
+     * @param ExceptionHandler $exceptionHandler
+     */
+    public function __construct(array $config, ExceptionHandler $exceptionHandler)
     {
         $this->credentials = new Credentials($config['access_key'], $config['secret_key']);
         $this->signature = new SignatureV4(self::SERVICE_NAME, $config['region']);
@@ -55,6 +61,7 @@ class SpeechCloud implements SpeechCloudInterface
                 'Content-Type' => 'application/json'
             ]
         ]);
+        $this->exceptionHandler = $exceptionHandler;
     }
 
     /**
@@ -82,7 +89,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return $response->getBody()->getContents();
             }
         } catch (\Exception $e) {
-            return null;
+            return $this->exceptionHandler->handle($e);
         }
     }
 
@@ -100,7 +107,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return $response->getBody()->getContents();
             }
         } catch (\Exception $e) {
-            return null;
+            return $this->exceptionHandler->handle($e);
         }
     }
 
@@ -118,7 +125,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return true;
             }
         } catch (\Exception $e) {
-            return false;
+            return $this->exceptionHandler->handle($e);
         }
     }
 
@@ -138,7 +145,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return $response->getBody()->getContents();
             }
         } catch (\Exception $e) {
-            return null;
+            return $this->exceptionHandler->handle($e);
         }
     }
 
@@ -158,7 +165,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return true;
             }
         } catch (\Exception $e) {
-            return false;
+            return $this->exceptionHandler->handle($e);
         }
     }
 
@@ -175,7 +182,7 @@ class SpeechCloud implements SpeechCloudInterface
                 return $response->getBody()->getContents();
             }
         } catch (\Exception $e) {
-            return null;
+            return $this->exceptionHandler->handle($e);
         }
     }
 

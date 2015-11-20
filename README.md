@@ -9,12 +9,13 @@ use Werd\Ivona\Models\OutputFormat;
 use Werd\Ivona\Models\Parameters;
 use Werd\Ivona\Models\Voice;
 use Werd\Ivona\Models\Lexicon;
+use Werd\Ivona\ExceptionHandler\NullHandler;
 
 $speechCloud = new SpeechCloud([
     'access_key' => '<your-key>',
     'secret_key' => '<your-secret-key>',
     'region'     => '<region>' // E.g. eu-west-1
-]);
+], new NullHandler());
 
 // CreateSpeech
 $data = $speechCloud->createSpeech(new Input([
